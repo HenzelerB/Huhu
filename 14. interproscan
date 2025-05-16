@@ -1,0 +1,50 @@
+14. interproscan
+#!/bin/bash -e
+
+#SBATCH --cpus-per-task=16
+#SBATCH --nodelist=zuse
+#SBATCH --job-name=15a.interproscan
+
+mkdir temp_L
+mkdir output_L
+
+singularity run \
+-B /mnt/nfs/home/bhenzeler/huhu/15.interproscan/:/data \
+-B /mnt/nfs/home/bhenzeler/huhu/15.interproscan/interproscan-5.67-99.0/data:/opt/interproscan/data \
+-B /mnt/nfs/home/bhenzeler/huhu/15.interproscan/output_L:/output_L \
+-B /mnt/nfs/home/bhenzeler/huhu/15.interproscan/temp_L:/temp_L \
+--pwd /opt/interproscan \
+interproscan.sif \
+-input /mnt/nfs/home/bhenzeler/huhu/3.Trinity/normalised_reads_L/trinity_L.Trinity.fasta \
+--cpu 20 \
+-f tsv -dp \
+-goterms \
+-pathways \
+--disable-precalc \
+--output-dir /output_L \
+--tempdir /temp_L
+
+#!/bin/bash -e
+
+#SBATCH --cpus-per-task=16
+#SBATCH --nodelist=zuse
+#SBATCH --job-name=15b.interproscan
+
+mkdir temp_S
+mkdir output_S
+
+singularity run \
+-B /mnt/nfs/home/bhenzeler/huhu/15.interproscan/:/data \
+-B /mnt/nfs/home/bhenzeler/huhu/15.interproscan/interproscan-5.67-99.0/data:/opt/interproscan/data \
+-B /mnt/nfs/home/bhenzeler/huhu/15.interproscan/output_S:/output_S \
+-B /mnt/nfs/home/bhenzeler/huhu/15.interproscan/temp_S:/temp_S \
+--pwd /opt/interproscan \
+interproscan.sif \
+-input /mnt/nfs/home/bhenzeler/huhu/3.Trinity/normalised_reads_S/trinity_S.Trinity.fasta \
+--cpu 20 \
+-f tsv -dp \
+-goterms \
+-pathways \
+--disable-precalc \
+--output-dir /output_S \
+--tempdir /temp_S
