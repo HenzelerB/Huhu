@@ -1,0 +1,14 @@
+7. KisSplice2RefTranscriptome
+#!/bin/bash -e
+
+#SBATCH --cpus-per-task=6
+#SBATCH --nodelist=zuse
+#SBATCH --job-name=kissplice2reftranscriptome
+
+kissplice2reftranscriptome
+-b S_Trinity_CD-HIT.fasta.transdecoder.bed
+-k results_Huhu-S1_trim_Huhu-S1_trim_k41_type_0a.fa
+-t Huhu-S1.psl
+-s kissDE_output
+-o Huhu-S1_mainOutput.tsv
+-l Huhu-S1_lowQueryCoverageOutput.tsv
