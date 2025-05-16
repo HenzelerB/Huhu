@@ -1,0 +1,8 @@
+1. fastQC
+#!/bin/bash -e
+
+#SBATCH --cpus-per-task=6
+#SBATCH --job-name=1.FastQC 
+#SBATCH --time=12:00:00
+
+fastqc *.fastq.gz -o ./’
