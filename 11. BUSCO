@@ -1,0 +1,10 @@
+11. BUSCO
+#!/bin/bash -e
+
+#SBATCH --cpus-per-task=12
+#SBATCH --nodelist=zuse
+#SBATCH --job-name=11.busco
+#SBATCH --time=48:00:00
+
+singularity exec -e busco.sif busco --in S_Trinity_CD-HIT.fasta --mode transcriptome --auto-lineage --cpu 12 --out S_Trinity
+singularity exec -e busco.sif busco --in L_Trinity_CD-HIT.fasta --mode transcriptome --auto-lineage --cpu 12 --out L_Trinity
