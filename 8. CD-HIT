@@ -1,0 +1,10 @@
+8. CD-HIT
+#!/bin/bash -e
+
+#SBATCH --cpus-per-task=20
+#SBATCH --job-name=8.CD-HIT
+#SBATCH --time=48:00:00
+
+cd-hit-est -i ../3.Trinity/merged/trinity.Trinity.fasta -o Trinity_CD-HIT.fasta -c 0.95 -n 11 -p 1 -g 1 -M 200000 -T 20 -d 0
+cd-hit-est -i ../3.Trinity/normalised_reads_S/trinity_S.Trinity.fasta -o S_Trinity_CD-HIT.fasta -c 0.95 -n 11 -p 1 -g 1 -M 200000 -T 20 -d 0
+cd-hit-est -i ../3.Trinity/normalised_reads_L/trinity_L.Trinity.fasta -o L_Trinity_CD-HIT.fasta -c 0.95 -n 11 -p 1 -g 1 -M 200000 -T 20 -d 0
