@@ -1,0 +1,10 @@
+10. transRate
+#!/bin/bash -e
+
+#SBATCH --cpus-per-task=12
+#SBATCH --nodelist=zuse
+#SBATCH --job-name=10.transrate
+#SBATCH --time=1:00:00
+
+transrate --assembly trinity_L.Trinity.fasta --reference trinity_L.Trinity.fasta --threads 12 --output trinity_L
+transrate --assembly trinity_S.Trinity.fasta --reference trinity_S.Trinity.fasta --threads 12 --output trinity_S
