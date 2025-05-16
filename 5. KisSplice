@@ -1,0 +1,17 @@
+5. KisSplice
+#!/bin/bash -e
+
+#SBATCH --cpus-per-task=6
+#SBATCH --mem=16G 
+#SBATCH --nodelist=zuse
+#SBATCH --job-name=Kissplice
+
+ulimit -s unlimited
+
+singularity exec -e kissplice.simg kissplice -s 1 -k 41 -t 12 \
+  -r ./Huhu-S1_R1.fastq.gz -r ./Huhu-S1_R2.fastq.gz \
+  -r ./Huhu-S2_R1.fastq.gz -r ./Huhu-S2_R2.fastq.gz \
+  -r ./Huhu-S3_R1.fastq.gz -r ./Huhu-S3_R2.fastq.gz \
+  -r ./Huhu-L1_R1.fastq.gz -r ./Huhu-L1_R2.fastq.gz \
+  -r ./Huhu-L2_R1.fastq.gz -r ./Huhu-L2_R2.fastq.gz \
+  -r ./Huhu-L3_R1.fastq.gz -r ./Huhu-L3_R2.fastq.gz
