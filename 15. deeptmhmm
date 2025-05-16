@@ -1,0 +1,34 @@
+15. deeptmhmm
+#!/bin/bash -e
+
+#SBATCH --cpus-per-task=24
+#BATCH  --mem=100G
+#SBATCH --nodelist=zuse
+#SBATCH --job-name=preprocess_fasta
+#SBATCH --time=240:00:00
+
+python preprocess_fasta.py --input ../Large_P.fasta --output ../L_data_tm_custom.npz
+python preprocess_fasta.py --input ../Small_P.fasta --output ../S_data_tm_custom.npz
+
+#SBATCH --cpus-per-task=12
+#SBATCH --gres=gpu:2
+#SBATCH --nodelist=marvin
+#SBATCH --job-name=15a.deeptmhmm
+#SBATCH --time=240:00:00
+
+biolib run DTU/DeepTMHMM --fasta S_Trinity_CD-HIT.fasta
+singularity run \
+-B /mnt/nfs/home/bhenzeler/huhu/15.interproscan/:/data \
+-B /mnt/nfs/home/bhenzeler/huhu/15.interproscan/interproscan-5.67-99.0/data:/opt/interproscan/data \
+-B /mnt/nfs/home/bhenzeler/huhu/15.interproscan/output_S:/output_S \
+-B /mnt/nfs/home/bhenzeler/huhu/15.interproscan/temp_S:/temp_S \
+--pwd /opt/interproscan \
+interproscan.sif \
+-input /mnt/nfs/home/bhenzeler/huhu/3.Trinity/normalised_reads_S/trinity_S.Trinity.fasta \
+--cpu 20 \
+-f tsv -dp \
+-goterms \
+-pathways \
+--disable-precalc \
+--output-dir /output_S \
+--tempdir /temp_S
