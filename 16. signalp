@@ -1,0 +1,16 @@
+16. signalp
+#!/bin/bash -e
+
+#SBATCH --cpus-per-task=12
+#SBATCH --nodelist=zuse
+#SBATCH --job-name=16a.signalp
+#SBATCH --time=240:00:00
+
+signalp6 --fastafile ./Large_P.fasta --organism other --output_dir ./  --format txt --mode slow-sequential
+
+#SBATCH --cpus-per-task=12
+#SBATCH --nodelist=zuse
+#SBATCH --job-name=16b.signalp
+#SBATCH --time=240:00:00
+
+signalp6 --fastafile ./Small_P.fasta --organism other --output_dir ./  --format txt --mode slow-sequential
