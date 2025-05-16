@@ -1,0 +1,9 @@
+6. BLAT
+#!/bin/bash -e
+
+#SBATCH --cpus-per-task=12
+#SBATCH --nodelist=zuse
+#SBATCH --job-name=blat
+#SBATCH --time=1:00:00
+
+blat -minIdentity=80 ../L_Trinity_CD-HIT.fasta ../results/results_Huhu-L1_trim_Huhu-L1_trim_k41_coherents_type_0a.fa ./Huhu-L1.psl
