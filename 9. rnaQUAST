@@ -1,0 +1,12 @@
+9. rnaQUAST
+#!/bin/bash -e
+
+#SBATCH --cpus-per-task=12
+#SBATCH --nodelist=zuse
+#SBATCH --job-name=6.RNAquast
+#SBATCH --time=2:00:00
+
+python ./rnaQUAST.py --threads 12 --gene_mark --busco BUSCO --transcripts ./trinity_S.Trinity.fasta --reference ./trinity_S.Trinity.fasta --gtf ./trinity_S.Trinity.fasta.transdecoder.gff3 --output_dir trinity_S
+python ./rnaQUAST.py --threads 12 --gene_mark --busco BUSCO --transcripts ./trinity_L.Trinity.fasta --reference ./trinity_L.Trinity.fasta --gtf ./trinity_L.Trinity.fasta.transdecoder.gff3 --output_dir trinity_L
+python ./rnaQUAST.py --threads 12 --gene_mark --busco BUSCO --transcripts ./S_Trinity_CD-HIT.fasta --reference ./S_Trinity_CD-HIT.fasta --gtf ./S_Trinity_CD-HIT.fasta.transdecoder.gff3 --output_dir trinity_S_CD-HIT
+python ./rnaQUAST.py --threads 12 --gene_mark --busco BUSCO --transcripts ./L_Trinity_CD-HIT.fasta --reference ./L_Trinity_CD-HIT.fasta --gtf ./L_Trinity_CD-HIT.fasta.transdecoder.gff3 --output_dir trinity_L_CD-HIT
