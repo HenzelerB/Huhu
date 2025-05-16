@@ -1,0 +1,121 @@
+13. BLAST 
+#!/bin/bash -e
+
+#SBATCH --cpus-per-task=32
+#SBATCH --job-name=9a.blastp
+#SBATCH --nodelist=zuse
+#SBATCH --mem=100G
+
+run_blastp() {
+    local db=$1
+    local output=$2
+    blastp -query ./trinity.Trinity.fasta.transdecoder.pep \
+           -db "$db" \
+           -out "$output" \
+           -evalue 1e-5 \
+           -num_threads 32 \
+           -max_target_seqs 500 \
+           -outfmt "6 qseqid sseqid pident length mismatch gapopen evalue bitscore staxids ssciname scomname sskingdoms"
+}
+
+run_blastp "./swissprot" "blastp.outfmt6"
+
+#SBATCH --cpus-per-task=32
+#SBATCH --job-name=9b.blastp
+#SBATCH --nodelist=zuse
+#SBATCH --mem=300G
+
+run_blastp() {
+    local db=$1
+    local output=$2
+    blastp -query ./trinity_L.Trinity.fasta.transdecoder.pep \
+           -db "$db" \
+           -out "$output" \
+           -evalue 1e-10 \
+           -num_threads 32 \
+           -max_target_seqs 500 \
+           -outfmt "6 qseqid sseqid pident length mismatch gapopen evalue bitscore staxids ssciname scomname sskingdoms"
+}
+
+run_blastp "./swissprot" "blastp_L.outfmt6"
+
+
+#SBATCH --cpus-per-task=32
+#SBATCH --job-name=9c.blastp
+#SBATCH --nodelist=zuse
+#SBATCH --mem=300G
+
+# Define a function to run blastx for a given database
+run_blastp() {
+    local db=$1
+    local output=$2
+    blastp -query ./trinity_S.Trinity.fasta.transdecoder.pep \
+           -db "$db" \
+           -out "$output" \
+           -evalue 1e-10 \
+           -num_threads 32 \
+           -max_target_seqs 500 \
+           -outfmt "6 qseqid sseqid pident length mismatch gapopen evalue bitscore staxids ssciname scomname sskingdoms"
+}
+
+run_blastp "./swissprot" "blastp_S.outfmt6"
+
+#SBATCH --cpus-per-task=32
+#SBATCH --job-name=10a.blastn
+#SBATCH --nodelist=zuse
+#SBATCH --mem=100G
+
+# Define a function to run blastx for a given database
+run_blastn() {
+    local db=$1
+    local output=$2
+    blastn -query ./trinity.Trinity.fasta \
+           -db "$db" \
+           -out "$output" \
+           -evalue 1e-5 \
+           -num_threads 32 \
+           -max_target_seqs 500 \
+           -outfmt "6 qseqid sseqid pident length mismatch gapopen evalue bitscore staxids ssciname scomname sskingdoms"
+}
+
+run_blastn "./nt" "blastn.outfmt6"
+
+#SBATCH --cpus-per-task=32
+#SBATCH --job-name=10b.blastn
+#SBATCH --nodelist=zuse
+#SBATCH --mem=100G
+
+# Define a function to run blastx for a given database
+run_blastn() {
+    local db=$1
+    local output=$2
+    blastn -query ./trinity_S.Trinity.fasta \
+           -db "$db" \
+           -out "$output" \
+           -evalue 1e-5 \
+           -num_threads 32 \
+           -max_target_seqs 500 \
+           -outfmt "6 qseqid sseqid pident length mismatch gapopen evalue bitscore staxids ssciname scomname sskingdoms"
+}
+
+run_blastn "./nt" "blastn_S.outfmt6"
+
+#SBATCH --cpus-per-task=32
+#SBATCH --job-name=10c.blastn
+#SBATCH --nodelist=zuse
+#SBATCH --mem=100G
+
+# Define a function to run blastx for a given database
+run_blastn() {
+    local db=$1
+    local output=$2
+    blastn -query ./trinity_L.Trinity.fasta \
+           -db "$db" \
+           -out "$output" \
+           -evalue 1e-5 \
+           -num_threads 32 \
+           -max_target_seqs 500 \
+           -outfmt "6 qseqid sseqid pident length mismatch gapopen evalue bitscore staxids ssciname scomname sskingdoms"
+}
+
+run_blastn "./nt" "blastn_L.outfmt6"
