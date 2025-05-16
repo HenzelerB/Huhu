@@ -1,0 +1,17 @@
+12. BLAST database download
+#!/bin/bash -e
+
+#SBATCH --cpus-per-task=32
+#SBATCH --job-name=database_download
+#SBATCH --nodelist=zuse
+#SBATCH --mem=100G
+
+download_part() {
+    local part=$1
+    update_blastdb.pl $part --decompress
+}
+
+export -f download_part
+all_parts=$(update_blastdb.pl --showall | grep '^nt' | awk '{print $1}')
+echo "$all_parts" | parallel -j 8 download_part
+echo "All parts of the nt database have been downloaded."
