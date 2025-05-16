@@ -1,0 +1,41 @@
+3. Trinity
+#!/bin/bash -e
+
+#SBATCH --cpus-per-task=16
+#SBATCH --nodelist=zuse
+#SBATCH --job-name=3a.Normalisation
+#SBATCH --time=96:00:00
+
+trimmomatic_dir=$(readlink -f ../2.Trimmomatic)
+normalized_reads_dir=$(readlink -f ./normalised_reads_L)
+
+LEFT_READS="$trimmomatic_dir/Huhu-L1_trim.R1_001.fastq.gz,$trimmomatic_dir/Huhu-L2_trim.R1_001.fastq.gz,$trimmomatic_dir/Huhu-L3_trim.R1_001.fastq.gz" 
+RIGHT_READS="$trimmomatic_dir/Huhu-L1_trim.R2_001.fastq.gz,$trimmomatic_dir/Huhu-L2_trim.R2_001.fastq.gz,$trimmomatic_dir/Huhu-L3_trim.R2_001.fastq.gz"
+
+mkdir -p $normalized_reads_dir
+
+singularity exec -e --bind $trimmomatic_dir,$normalized_reads_dir trinity.simg Trinity --normalize_reads \
+    --seqType fq \
+    --left $LEFT_READS \
+    --right $RIGHT_READS \
+    --max_memory 300G \
+    --bflyHeapSpaceMax 30G \
+    --CPU 16 \
+    --output $normalized_reads_dir/trinity_L \
+    --verbose
+
+trimmomatic_dir=$(readlink -f ../2.Trimmomatic)
+normalized_reads_dir=$(readlink -f ./normalised_reads_S)
+
+LEFT_READS="$trimmomatic_dir/Huhu-S1_trim.R1_001.fastq.gz,$trimmomatic_dir/Huhu-S2_trim.R1_001.fastq.gz,$trimmomatic_dir/Huhu-S3_trim.R1_001.fastq.gz" 
+RIGHT_READS="$trimmomatic_dir/Huhu-S1_trim.R2_001.fastq.gz,$trimmomatic_dir/Huhu-S2_trim.R2_001.fastq.gz,$trimmomatic_dir/Huhu-S3_trim.R2_001.fastq.gz"
+
+mkdir -p $normalized_reads_dir
+
+singularity exec -e --bind $trimmomatic_dir,$normalized_reads_dir trinity.simg Trinity --normalize_reads \
+    --seqType fq \
+    --left $LEFT_READS \
+    --right $RIGHT_READS \
+    --max_memory 10G \
+    --CPU 24 \
+    --output $normalized_reads_dir/trinity_S
