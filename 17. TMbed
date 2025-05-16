@@ -1,0 +1,59 @@
+17. TMbed
+#!/bin/bash -e
+
+#SBATCH --cpus-per-task=6
+#SBATCH --gres=gpu:2
+#SBATCH --ntasks=1
+#SBATCH --nodelist=marvin
+#SBATCH --job-name=17a.TMbed
+#SBATCH --time=240:00:00
+
+FASTA_FILE="Small_P.fasta"   # Replace with your .fasta file path
+EMBEDDINGS_FILE="Small_P.h5"     # File to store embeddings
+PREDICTIONS_FILE="Small_P.pred"  # File to store predictions
+
+export CUBLAS_WORKSPACE_CONFIG=:4096:8
+echo "Generating embeddings..."
+python -m tmbed embed -f "$FASTA_FILE" -e "$EMBEDDINGS_FILE" --use-gpu
+if [ $? -ne 0 ]; then
+    echo "Error during embedding generation."
+    exit 1
+fi
+echo "Embeddings saved to $EMBEDDINGS_FILE."
+echo "Predicting transmembrane proteins..."
+python -m tmbed predict -f "$FASTA_FILE" -e "$EMBEDDINGS_FILE" -p "$PREDICTIONS_FILE" --use-gpu
+if [ $? -ne 0 ]; then
+    echo "Error during prediction."
+    exit 1
+fi
+echo "Predictions saved to $PREDICTIONS_FILE."
+echo "Prediction complete. Results:"
+cat "$PREDICTIONS_FILE"
+
+#SBATCH --cpus-per-task=6
+#SBATCH --gres=gpu:2
+#SBATCH --ntasks=1
+#SBATCH --nodelist=marvin
+#SBATCH --job-name=17b.TMbed
+#SBATCH --time=240:00:00
+
+FASTA_FILE="Large_P.fasta"   # Replace with your .fasta file path
+EMBEDDINGS_FILE="Large_P.h5"     # File to store embeddings
+PREDICTIONS_FILE="Large_P.pred"  # File to store predictions
+
+echo "Generating embeddings..."
+python -m tmbed embed -f "$FASTA_FILE" -e "$EMBEDDINGS_FILE" --use-gpu
+if [ $? -ne 0 ]; then
+    echo "Error during embedding generation."
+    exit 1
+fi
+echo "Embeddings saved to $EMBEDDINGS_FILE."
+echo "Predicting transmembrane proteins..."
+python -m tmbed predict -f "$FASTA_FILE" -e "$EMBEDDINGS_FILE" -p "$PREDICTIONS_FILE" --use-gpu
+if [ $? -ne 0 ]; then
+    echo "Error during prediction."
+    exit 1
+fi
+echo "Predictions saved to $PREDICTIONS_FILE."
+echo "Prediction complete. Results:"
+cat "$PREDICTIONS_FILE"
