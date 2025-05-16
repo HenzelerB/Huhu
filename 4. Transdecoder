@@ -1,0 +1,18 @@
+4. Transdecoder
+#!/bin/bash -e
+
+#SBATCH --cpus-per-task=12
+#SBATCH --nodelist=zuse
+#SBATCH --job-name=5.Transdecoder
+#SBATCH --time=6:00:00
+
+singularity exec -e transdecoder.simg TransDecoder.LongOrfs -t ../3.Trinity/normalised_reads_L/trinity_L.Trinity.fasta
+singularity exec -e transdecoder.simg TransDecoder.Predict -t ../3.Trinity/normalised_reads_L/trinity_L.Trinity.fasta
+singularity exec -e transdecoder.simg TransDecoder.LongOrfs -t ../3.Trinity/merged/trinity.Trinity.fasta
+singularity exec -e transdecoder.simg TransDecoder.Predict -t ../3.Trinity/merged/trinity.Trinity.fasta
+singularity exec -e transdecoder.simg TransDecoder.LongOrfs -t ../3.Trinity/normalised_reads_S/trinity_S.Trinity.fasta
+singularity exec -e transdecoder.simg TransDecoder.Predict -t ../3.Trinity/normalised_reads_S/trinity_S.Trinity.fasta
+singularity exec -e transdecoder.simg TransDecoder.LongOrfs -t ../8.CD-HIT/L_Trinity_CD-HIT.fasta
+singularity exec -e transdecoder.simg TransDecoder.Predict -t ../8.CD-HIT/L_Trinity_CD-HIT.fasta
+singularity exec -e transdecoder.simg TransDecoder.LongOrfs -t ../8.CD-HIT/S_Trinity_CD-HIT.fasta
+singularity exec -e transdecoder.simg TransDecoder.Predict -t ../8.CD-HIT/S_Trinity_CD-HIT.fasta
