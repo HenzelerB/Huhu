@@ -1,0 +1,21 @@
+2. Trimmomatic
+#!/bin/bash -e
+
+#SBATCH --cpus-per-task=12
+#SBATCH --job-name 2.Trimmomatic
+#SBATCH --gres=gpu:3
+#SBATCH --time=6:00:00
+
+# Create a directory for the trimmomatic logs if it doesn't already exist
+mkdir -p ./logs
+
+for filename in *_R1_001.fastq.gz;
+do 
+    base=$(basename ${filename} _R1_001.fastq.gz)
+    # Redirect the standard output (which includes the summary) to a log file
+    trimmomatic PE -threads 12 ${filename} ${base}_R2_001.fastq.gz \
+    ./${base}_trim.R1_001.fastq.gz ./${base}_unpaired.trim.R1_001.fastq.gz \
+    ./${base}_trim.R2_001.fastq.gz ./${base}_unpaired.trim.R2_001.fastq.gz \
+    SLIDINGWINDOW:4:20 MINLEN:50 ILLUMINACLIP:illumina_adapter.fa:2:40:15 \
+    > ./logs/${base}_trimmomatic.log 2>&1
+Done
