@@ -1,0 +1,19 @@
+18. targetp
+#!/bin/bash -e
+
+#SBATCH --cpus-per-task=24
+#SBATCH --nodelist=zuse
+#SBATCH --job-name=17a.targetp
+#SBATCH --time=240:00:00
+
+bin/targetp -fasta ./Small_P.fasta -org non-pl -format short -plot png -prefix ./Small_P_output
+
+#!/bin/bash -e
+
+#SBATCH --cpus-per-task=24
+#SBATCH --nodelist=zuse
+#SBATCH --job-name=17b.targetp
+#SBATCH --time=240:00:00
+
+bin/targetp -fasta ./Large_P.fasta -org non-pl -format short -plot png -prefix ./Large_P_output
+
