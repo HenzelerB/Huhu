@@ -349,6 +349,27 @@ cat(sprintf("Outputs written to: %s/\n", OUTDIR))
 cat("==========================================\n")
 
 
+getwd()                                              # the folder sensitivity_out sits inside
+list.files("sensitivity_out", full.names = TRUE)     # the five output files
+normalizePath(list.files("sensitivity_out", full.names = TRUE))  # full absolute paths
+
+
+
+
+loo <- summary_df[summary_df$type=="LOO",]
+sub <- summary_df[summary_df$type=="subset_2v2",]
+cat(sprintf("LOO DE-set recovery %.2f-%.2f (median %.2f)\n", min(loo$recovery), max(loo$recovery), median(loo$recovery)))
+cat(sprintf("LOO top-50 recovery %.2f-%.2f\n", min(loo$top_recovery), max(loo$top_recovery)))
+cat(sprintf("LOO log2FC Pearson %.2f-%.2f\n", min(loo$lfc_pearson), max(loo$lfc_pearson)))
+cat(sprintf("2v2 log2FC Spearman %.2f-%.2f\n", min(sub$lfc_spearman), max(sub$lfc_spearman)))
+aggregate(recovery~depth, read.csv("sensitivity_out/downsampling_recovery.csv"), mean)
+
+
+
+
+
+
+
 
 
 
