@@ -1,5 +1,10 @@
-5. KisSplice
 #!/bin/bash -e
+
+# Purpose: detect alternative splicing events across six paired RNA-seq samples.
+# Requirements: kissplice.simg, Singularity, SLURM. Inputs: the 12 FASTQs below.
+# Outputs: KisSplice event FASTA/results files in the working directory.
+# Usage: cd <KisSplice-work-directory> && sbatch "5. KisSplice"
+# Reuse: update reads, k-mer size (-k), threads (-t), image, and resources.
 
 #SBATCH --cpus-per-task=6
 #SBATCH --mem=16G 

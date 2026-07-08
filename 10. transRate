@@ -1,5 +1,12 @@
-10. transRate
 #!/bin/bash -e
+
+# Purpose: calculate TransRate metrics for the large- and small-larva assemblies.
+# Requirements: TransRate and SLURM. Inputs: the two Trinity FASTAs below.
+# Outputs: trinity_L/ and trinity_S/ report directories.
+# Usage: stage both assemblies, then: sbatch "10. transRate"
+# Reuse: update assembly/reference paths, output names, threads, and node constraint.
+# The same FASTA is used as assembly and reference here; use an independent reference
+# when one is available in a reused analysis.
 
 #SBATCH --cpus-per-task=12
 #SBATCH --nodelist=zuse

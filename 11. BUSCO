@@ -1,5 +1,10 @@
-11. BUSCO
 #!/bin/bash -e
+
+# Purpose: estimate completeness of the small- and large-larva transcriptomes.
+# Requirements: busco.sif, Singularity, SLURM. Inputs: the two CD-HIT FASTAs below.
+# Outputs: S_Trinity/ and L_Trinity/ BUSCO result directories.
+# Usage: stage the image and FASTAs, then: sbatch "11. BUSCO"
+# Reuse: update FASTA/output names; pin a lineage dataset for comparable reruns.
 
 #SBATCH --cpus-per-task=12
 #SBATCH --nodelist=zuse

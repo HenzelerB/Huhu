@@ -1,5 +1,10 @@
-8. CD-HIT
 #!/bin/bash -e
+
+# Purpose: cluster redundant transcripts in merged, small-, and large-larva assemblies.
+# Requirements: cd-hit-est and SLURM. Inputs: the three Trinity FASTAs below.
+# Outputs: three *CD-HIT.fasta files and their cluster metadata files.
+# Usage: from the CD-HIT work directory, run: sbatch "8. CD-HIT"
+# Reuse: update paths, identity (-c), memory MB (-M), and threads (-T).
 
 #SBATCH --cpus-per-task=20
 #SBATCH --job-name=8.CD-HIT

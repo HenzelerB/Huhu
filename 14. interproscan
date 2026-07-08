@@ -1,12 +1,17 @@
-14. interproscan
 #!/bin/bash -e
+
+# Purpose: annotate both transcriptomes with InterPro, GO terms, and pathways.
+# Requirements: InterProScan image/data, Singularity, SLURM. Inputs: two FASTAs.
+# Outputs: results under output_L/ and output_S/, plus temporary work directories.
+# Usage: customize every absolute bind path, then: sbatch "14. interproscan"
+# Reuse: update /mnt/nfs paths, image/version, FASTAs, CPUs, and directories.
+# Both analyses run in ONE allocation; the second shebang/#SBATCH block is not a job.
 
 #SBATCH --cpus-per-task=16
 #SBATCH --nodelist=zuse
 #SBATCH --job-name=15a.interproscan
 
-mkdir temp_L
-mkdir output_L
+mkdir -p temp_L output_L
 
 singularity run \
 -B /mnt/nfs/home/bhenzeler/huhu/15.interproscan/:/data \
@@ -24,14 +29,12 @@ interproscan.sif \
 --output-dir /output_L \
 --tempdir /temp_L
 
-#!/bin/bash -e
-
+# Small-larva analysis (continues in the same allocation).
 #SBATCH --cpus-per-task=16
 #SBATCH --nodelist=zuse
 #SBATCH --job-name=15b.interproscan
 
-mkdir temp_S
-mkdir output_S
+mkdir -p temp_S output_S
 
 singularity run \
 -B /mnt/nfs/home/bhenzeler/huhu/15.interproscan/:/data \

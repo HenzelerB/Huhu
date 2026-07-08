@@ -1,5 +1,11 @@
-18. targetp
 #!/bin/bash -e
+
+# Purpose: predict eukaryotic targeting peptides for small- and large-larva proteins.
+# Requirements: local/licensed TargetP under bin/, SLURM. Inputs: two FASTAs below.
+# Outputs: Small_P_output* and Large_P_output* files, including PNG plots.
+# Usage: from the TargetP work/install directory, run: sbatch "18. targetp"
+# Reuse: update FASTA/prefix paths and -org for the target taxonomic group.
+# Both commands run in ONE allocation; the second shebang/#SBATCH block is not a job.
 
 #SBATCH --cpus-per-task=24
 #SBATCH --nodelist=zuse
@@ -8,8 +14,7 @@
 
 bin/targetp -fasta ./Small_P.fasta -org non-pl -format short -plot png -prefix ./Small_P_output
 
-#!/bin/bash -e
-
+# Large-larva analysis (continues in the same allocation).
 #SBATCH --cpus-per-task=24
 #SBATCH --nodelist=zuse
 #SBATCH --job-name=17b.targetp

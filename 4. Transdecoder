@@ -1,5 +1,10 @@
-4. Transdecoder
 #!/bin/bash -e
+
+# Purpose: predict coding regions in original, merged, and CD-HIT assemblies.
+# Requirements: transdecoder.simg, Singularity, SLURM. Inputs: five FASTAs below.
+# Outputs: TransDecoder .pep/.cds/.gff3 and intermediate files beside each input.
+# Usage: from the TransDecoder work directory, run: sbatch "4. Transdecoder"
+# Reuse: update FASTA and container paths; remove input pairs that are not needed.
 
 #SBATCH --cpus-per-task=12
 #SBATCH --nodelist=zuse

@@ -1,5 +1,10 @@
-6. BLAT
 #!/bin/bash -e
+
+# Purpose: align KisSplice events to the large-larva reference transcriptome.
+# Requirements: BLAT and SLURM. Inputs: reference FASTA, then event FASTA.
+# Output: Huhu-L1.psl for KisSplice2RefTranscriptome.
+# Usage: from the results directory, run: sbatch "6. BLAT"
+# Reuse: update reference/query/output paths and -minIdentity.
 
 #SBATCH --cpus-per-task=12
 #SBATCH --nodelist=zuse
