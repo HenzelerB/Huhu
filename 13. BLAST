@@ -1,5 +1,13 @@
-13. BLAST 
 #!/bin/bash -e
+
+# Purpose: search predicted proteins against Swiss-Prot and transcripts against nt.
+# Requirements: BLAST+, local swissprot/nt databases, SLURM.
+# Inputs: merged/small/large FASTAs and their predicted .pep files.
+# Outputs: blastp*.outfmt6 and blastn*.outfmt6 tables with taxonomy fields.
+# Usage: stage inputs/databases, then submit this file with sbatch.
+# Reuse: update queries, DB paths, e-values, outputs, threads, and resources.
+# All commands run in ONE allocation: later #SBATCH blocks do not change resources.
+# Split this file into individual scripts if the searches need separate jobs.
 
 #SBATCH --cpus-per-task=32
 #SBATCH --job-name=9a.blastp
@@ -45,7 +53,7 @@ run_blastp "./swissprot" "blastp_L.outfmt6"
 #SBATCH --nodelist=zuse
 #SBATCH --mem=300G
 
-# Define a function to run blastx for a given database
+# Redefine the protein-search helper for the small-larva query.
 run_blastp() {
     local db=$1
     local output=$2
@@ -65,7 +73,7 @@ run_blastp "./swissprot" "blastp_S.outfmt6"
 #SBATCH --nodelist=zuse
 #SBATCH --mem=100G
 
-# Define a function to run blastx for a given database
+# Define the nucleotide-search helper for the merged transcript query.
 run_blastn() {
     local db=$1
     local output=$2
@@ -85,7 +93,7 @@ run_blastn "./nt" "blastn.outfmt6"
 #SBATCH --nodelist=zuse
 #SBATCH --mem=100G
 
-# Define a function to run blastx for a given database
+# Redefine the nucleotide-search helper for the small-larva query.
 run_blastn() {
     local db=$1
     local output=$2
@@ -105,7 +113,7 @@ run_blastn "./nt" "blastn_S.outfmt6"
 #SBATCH --nodelist=zuse
 #SBATCH --mem=100G
 
-# Define a function to run blastx for a given database
+# Redefine the nucleotide-search helper for the large-larva query.
 run_blastn() {
     local db=$1
     local output=$2

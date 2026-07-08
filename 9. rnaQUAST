@@ -1,5 +1,11 @@
-9. rnaQUAST
 #!/bin/bash -e
+
+# Purpose: assess four assemblies with rnaQUAST, GeneMark, and BUSCO metrics.
+# Requirements: rnaQUAST.py with GeneMark/BUSCO configured, Python, SLURM.
+# Inputs: each transcript FASTA, matching GFF3, and the selected reference FASTA.
+# Outputs: trinity_S/, trinity_L/, and two CD-HIT report directories.
+# Usage: stage the tool and inputs, then: sbatch "9. rnaQUAST"
+# Reuse: update input/reference/GFF3 paths, BUSCO setting, and threads.
 
 #SBATCH --cpus-per-task=12
 #SBATCH --nodelist=zuse

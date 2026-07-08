@@ -1,8 +1,13 @@
-1. fastQC
 #!/bin/bash -e
 
+# Purpose: run FastQC on every gzip-compressed FASTQ file in this directory.
+# Requirements: FastQC and SLURM. Inputs: *.fastq.gz. Outputs: HTML/ZIP reports.
+# Usage: cd <raw-read-directory> && sbatch "1. fastQC"
+# Reuse: update the input glob, output directory, CPUs, and SLURM limits.
+
 #SBATCH --cpus-per-task=6
-#SBATCH --job-name=1.FastQC 
+#SBATCH --job-name=1.FastQC
 #SBATCH --time=12:00:00
 
-fastqc *.fastq.gz -o ./’
+# FastQC requires the output directory to exist; use the current directory here.
+fastqc *.fastq.gz -o ./

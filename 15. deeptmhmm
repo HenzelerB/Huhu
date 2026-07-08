@@ -1,8 +1,15 @@
-15. deeptmhmm
 #!/bin/bash -e
 
+# Purpose: preprocess proteins and run retained topology/annotation commands.
+# Requirements: preprocess_fasta.py, Biolib DeepTMHMM, InterProScan image/data,
+# Singularity, SLURM. Inputs: Large_P.fasta, Small_P.fasta, and bound data paths.
+# Outputs: *.npz, DeepTMHMM output, and output_S/ annotations.
+# Usage: review this mixed workflow and site paths, then submit with sbatch.
+# Reuse: update FASTAs, absolute paths, images, CPUs, and outputs.
+# All commands use the FIRST allocation; later #SBATCH lines cannot add GPUs/resources.
+
 #SBATCH --cpus-per-task=24
-#BATCH  --mem=100G
+#SBATCH --mem=100G
 #SBATCH --nodelist=zuse
 #SBATCH --job-name=preprocess_fasta
 #SBATCH --time=240:00:00

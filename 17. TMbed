@@ -1,5 +1,12 @@
-17. TMbed
 #!/bin/bash -e
+
+# Purpose: generate embeddings and predict membrane topology for two protein FASTAs.
+# Requirements: TMbed Python environment/model, CUDA GPU, SLURM.
+# Inputs: Small_P.fasta and Large_P.fasta. Outputs: matching .h5 and .pred files.
+# Usage: activate the TMbed environment, stage FASTAs, then submit with sbatch.
+# Reuse: edit the three filename variables per dataset and GPU/SLURM settings.
+# Both datasets run in ONE allocation; later #SBATCH directives are ignored.
+# Because bash -e is enabled, any failed TMbed command stops the script immediately.
 
 #SBATCH --cpus-per-task=6
 #SBATCH --gres=gpu:2
@@ -8,24 +15,17 @@
 #SBATCH --job-name=17a.TMbed
 #SBATCH --time=240:00:00
 
-FASTA_FILE="Small_P.fasta"   # Replace with your .fasta file path
-EMBEDDINGS_FILE="Small_P.h5"     # File to store embeddings
-PREDICTIONS_FILE="Small_P.pred"  # File to store predictions
+# Small-larva input and derived outputs.
+FASTA_FILE="Small_P.fasta"
+EMBEDDINGS_FILE="Small_P.h5"
+PREDICTIONS_FILE="Small_P.pred"
 
 export CUBLAS_WORKSPACE_CONFIG=:4096:8
 echo "Generating embeddings..."
 python -m tmbed embed -f "$FASTA_FILE" -e "$EMBEDDINGS_FILE" --use-gpu
-if [ $? -ne 0 ]; then
-    echo "Error during embedding generation."
-    exit 1
-fi
 echo "Embeddings saved to $EMBEDDINGS_FILE."
 echo "Predicting transmembrane proteins..."
 python -m tmbed predict -f "$FASTA_FILE" -e "$EMBEDDINGS_FILE" -p "$PREDICTIONS_FILE" --use-gpu
-if [ $? -ne 0 ]; then
-    echo "Error during prediction."
-    exit 1
-fi
 echo "Predictions saved to $PREDICTIONS_FILE."
 echo "Prediction complete. Results:"
 cat "$PREDICTIONS_FILE"
@@ -37,23 +37,16 @@ cat "$PREDICTIONS_FILE"
 #SBATCH --job-name=17b.TMbed
 #SBATCH --time=240:00:00
 
-FASTA_FILE="Large_P.fasta"   # Replace with your .fasta file path
-EMBEDDINGS_FILE="Large_P.h5"     # File to store embeddings
-PREDICTIONS_FILE="Large_P.pred"  # File to store predictions
+# Large-larva input and derived outputs (same allocation).
+FASTA_FILE="Large_P.fasta"
+EMBEDDINGS_FILE="Large_P.h5"
+PREDICTIONS_FILE="Large_P.pred"
 
 echo "Generating embeddings..."
 python -m tmbed embed -f "$FASTA_FILE" -e "$EMBEDDINGS_FILE" --use-gpu
-if [ $? -ne 0 ]; then
-    echo "Error during embedding generation."
-    exit 1
-fi
 echo "Embeddings saved to $EMBEDDINGS_FILE."
 echo "Predicting transmembrane proteins..."
 python -m tmbed predict -f "$FASTA_FILE" -e "$EMBEDDINGS_FILE" -p "$PREDICTIONS_FILE" --use-gpu
-if [ $? -ne 0 ]; then
-    echo "Error during prediction."
-    exit 1
-fi
 echo "Predictions saved to $PREDICTIONS_FILE."
 echo "Prediction complete. Results:"
 cat "$PREDICTIONS_FILE"

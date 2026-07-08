@@ -1,5 +1,11 @@
-12. BLAST database download
 #!/bin/bash -e
+
+# Purpose: download and decompress every NCBI nucleotide (nt) BLAST DB volume.
+# Requirements: update_blastdb.pl, GNU Parallel, network access, SLURM.
+# Inputs: none. Outputs: nt database volumes in the submission directory.
+# Usage: cd <database-directory> && sbatch "12. BLAST database download"
+# Reuse: change the '^nt' filter for another DB and tune parallel jobs (-j).
+# Confirm disk quota first and record the download date because nt changes over time.
 
 #SBATCH --cpus-per-task=32
 #SBATCH --job-name=database_download
@@ -8,10 +14,11 @@
 
 download_part() {
     local part=$1
-    update_blastdb.pl $part --decompress
+    update_blastdb.pl "$part" --decompress
 }
 
 export -f download_part
+# Select only nt volume names from the database catalogue.
 all_parts=$(update_blastdb.pl --showall | grep '^nt' | awk '{print $1}')
 echo "$all_parts" | parallel -j 8 download_part
 echo "All parts of the nt database have been downloaded."

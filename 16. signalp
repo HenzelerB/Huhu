@@ -1,16 +1,24 @@
-16. signalp
 #!/bin/bash -e
+
+# Purpose: predict signal peptides in large- and small-larva protein FASTAs.
+# Requirements: SignalP 6 (signalp6), SLURM. Inputs: Large_P.fasta, Small_P.fasta.
+# Outputs: SignalP text files in the current directory.
+# Usage: stage both FASTAs, then: sbatch "16. signalp"
+# Reuse: update FASTA/output paths and --organism for the target group.
+# Both commands run in ONE allocation; later #SBATCH directives are ignored by SLURM.
 
 #SBATCH --cpus-per-task=12
 #SBATCH --nodelist=zuse
 #SBATCH --job-name=16a.signalp
 #SBATCH --time=240:00:00
 
-signalp6 --fastafile ./Large_P.fasta --organism other --output_dir ./  --format txt --mode slow-sequential
+# Large-larva proteins.
+signalp6 --fastafile ./Large_P.fasta --organism other --output_dir ./ --format txt --mode slow-sequential
 
 #SBATCH --cpus-per-task=12
 #SBATCH --nodelist=zuse
 #SBATCH --job-name=16b.signalp
 #SBATCH --time=240:00:00
 
-signalp6 --fastafile ./Small_P.fasta --organism other --output_dir ./  --format txt --mode slow-sequential
+# Small-larva proteins (same allocation).
+signalp6 --fastafile ./Small_P.fasta --organism other --output_dir ./ --format txt --mode slow-sequential

@@ -1,5 +1,10 @@
-2. Trimmomatic
 #!/bin/bash -e
+
+# Purpose: adapter- and quality-trim paired-end Illumina reads.
+# Requirements: Trimmomatic, illumina_adapter.fa, SLURM. Inputs: paired R1/R2 FASTQs.
+# Outputs: paired/unpaired trimmed FASTQs and per-sample logs in logs/.
+# Usage: cd <read-directory> && sbatch "2. Trimmomatic"
+# Reuse: update filename suffixes, adapter path, thresholds, threads, and resources.
 
 #SBATCH --cpus-per-task=12
 #SBATCH --job-name 2.Trimmomatic
@@ -18,4 +23,4 @@ do
     ./${base}_trim.R2_001.fastq.gz ./${base}_unpaired.trim.R2_001.fastq.gz \
     SLIDINGWINDOW:4:20 MINLEN:50 ILLUMINACLIP:illumina_adapter.fa:2:40:15 \
     > ./logs/${base}_trimmomatic.log 2>&1
-Done
+done
